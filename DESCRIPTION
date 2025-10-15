@@ -1,11 +1,19 @@
 Package: anagotus.data
-Title: What the Package Does (One Line, Title Case)
+Title: Anagotus Label Data
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person(given = "Neil",
+           family = "Birrell",
+           role = c("aut", "cre"),
+           email = "nbir012@aucklanduni.ac.nz",
+           comment = c(ORCID = "https://orcid.org/0000-0002-7961-1626"))
+Description: This package provides label data for Anagotus specimens stored in various institutions. This includes temporal and spatial data where possible.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+Depends: 
+    R (>= 3.5)
+LazyData: true
+Imports: 
+    tibble
