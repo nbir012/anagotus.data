@@ -5,7 +5,7 @@ library(tidyverse)
 # Define function
 split_scientific_name <- function(df, column = "") {
   column_sym <- sym(column)
-  
+
   df |>
     mutate(
       match = str_match(
@@ -21,9 +21,18 @@ split_scientific_name <- function(df, column = "") {
 }
 
 # Data processing
-df_nzac_raw <- readr::read_csv(here::here("data-raw", "2025_nzac_digitised_specimen_data.csv")) |>
+df_nzac_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "2025_nzac_digitised_specimen_data.csv"
+)) |>
   janitor::clean_names() |>
-  unite(species, taxon_name:taxon_note, sep = " ", remove = FALSE, na.rm = TRUE) |>
+  unite(
+    species,
+    taxon_name:taxon_note,
+    sep = " ",
+    remove = FALSE,
+    na.rm = TRUE
+  ) |>
   separate_wider_delim(
     col = neil_guess_coordinates,
     names = c("decimal_latitude", "decimal_longitude"),
@@ -44,7 +53,10 @@ df_nzac_raw <- readr::read_csv(here::here("data-raw", "2025_nzac_digitised_speci
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
 
-df_nhm_raw <- readr::read_csv(here::here("data-raw", "2025_nhm_digitised_specimen_data.csv")) |>
+df_nhm_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "2025_nhm_digitised_specimen_data.csv"
+)) |>
   janitor::clean_names() |>
   separate_wider_delim(
     col = neil_guess_coordinates,
@@ -52,32 +64,35 @@ df_nhm_raw <- readr::read_csv(here::here("data-raw", "2025_nhm_digitised_specime
     delim = ", "
   ) |>
   split_scientific_name("neil_guess_accepted_name") |>
-  mutate(collector_cleaned = case_when(
-    is.na(collector) ~ NA_character_,
-    collector == "coll. // E.Fairburn." ~ "E.F. Fairburn",
-    collector == "Marshall." ~ "Marshall",
-    collector == "H. Simmonds." ~ "H. Simmonds",
-    collector == "E.S. Gourlay" ~ "E.S. Gourlay",
-    collector == ".Seymour." ~ "Seymour",
-    collector == "Illegible" ~ "Illegible",
-    collector == "O'connor" ~ "O'Connor",
-    collector == "E.Fairburn." ~ "E.F. Fairburn",
-    collector == "G.V. Hudson (C.E. Clarke)." ~ "G.V. Hudson; C.E. Clarke",
-    collector == "E.S.Gourlay" ~ "E.S. Gourlay",
-    collector == "Helms" ~ "Helms",
-    collector == "G.V. Hudson" ~ "G.V. Hudson",
-    collector == "Stella Hudson" ~ "S. Hudson",
-    collector == "G. Howes" ~ "G. Howes",
-    collector == "C. E. Clarke" ~ "C.E. Clarke",
-    collector == "J. S. Hood" ~ "J.S. Hood",
-    collector == "E. Fairburn // gen G.V. Hudson" ~ "E.F. Fairburn; G.V. Hudson",
-    collector == "Gourlay // per G.V. Hudson" ~ "E.S. Gourlay; G.V. Hudson",
-    collector == "H. Hamilton" ~ "H. Hamilton",
-    collector == "A.C. O'Connor" ~ "A.C. O'Connor",
-    collector == "O'Connor" ~ "O'Connor",
-    collector == "Fide Sandager" ~ "Fide Sandager",
-    TRUE ~ collector
-  )) |>
+  mutate(
+    collector_cleaned = case_when(
+      is.na(collector) ~ NA_character_,
+      collector == "coll. // E.Fairburn." ~ "E.F. Fairburn",
+      collector == "Marshall." ~ "Marshall",
+      collector == "H. Simmonds." ~ "H. Simmonds",
+      collector == "E.S. Gourlay" ~ "E.S. Gourlay",
+      collector == ".Seymour." ~ "Seymour",
+      collector == "Illegible" ~ "Illegible",
+      collector == "O'connor" ~ "O'Connor",
+      collector == "E.Fairburn." ~ "E.F. Fairburn",
+      collector == "G.V. Hudson (C.E. Clarke)." ~ "G.V. Hudson; C.E. Clarke",
+      collector == "E.S.Gourlay" ~ "E.S. Gourlay",
+      collector == "Helms" ~ "Helms",
+      collector == "G.V. Hudson" ~ "G.V. Hudson",
+      collector == "Stella Hudson" ~ "S. Hudson",
+      collector == "G. Howes" ~ "G. Howes",
+      collector == "C. E. Clarke" ~ "C.E. Clarke",
+      collector == "J. S. Hood" ~ "J.S. Hood",
+      collector == "E. Fairburn // gen G.V. Hudson" ~
+        "E.F. Fairburn; G.V. Hudson",
+      collector == "Gourlay // per G.V. Hudson" ~ "E.S. Gourlay; G.V. Hudson",
+      collector == "H. Hamilton" ~ "H. Hamilton",
+      collector == "A.C. O'Connor" ~ "A.C. O'Connor",
+      collector == "O'Connor" ~ "O'Connor",
+      collector == "Fide Sandager" ~ "Fide Sandager",
+      TRUE ~ collector
+    )
+  ) |>
   mutate(
     clean_date = parse_date_time(clean_date, orders = c("dmy", "my", "y")),
     day = day(clean_date),
@@ -100,7 +115,11 @@ df_nhm_raw <- readr::read_csv(here::here("data-raw", "2025_nhm_digitised_specime
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
 
 # Combine datasets
-df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw)
+df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw) %>%
+  mutate(
+    decimal_latitude = as.double(decimal_latitude),
+    decimal_longitude = as.double(decimal_longitude)
+  )
 
 # Save to .rda
 usethis::use_data(df_anagotus, overwrite = TRUE)
