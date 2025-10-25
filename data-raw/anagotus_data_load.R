@@ -123,3 +123,11 @@ df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw) %>%
 
 # Save to .rda
 usethis::use_data(df_anagotus, overwrite = TRUE)
+
+# If you wanted to later to and edit one of your datasets, here’s what that workflow would look like:
+# 1) Go into data-raw/ and edit your .csv and the corresponding dataset_load.R script for in the data-raw/ folder.
+# 2) After you’ve made your changes, make sure you re-run usethis::use_data(<your-dataset>, overwrite = TRUE).
+# 3) If your changes affect the variables you’ve used, then don’t forget to update the corresponding Roxygen-commented .R script that lives inside the R/ folder. Run document() to put those changes into effect.
+# 4) Run a Check for good measure with devtools::check(document=FALSE) and finally…
+# 5) Go to Build > Install and Restart.
+# 6) When your learners re-install the package from GitHub, they’ll have all your updates!
