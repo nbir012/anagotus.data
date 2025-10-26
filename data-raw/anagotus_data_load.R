@@ -114,8 +114,72 @@ df_nhm_raw <- readr::read_csv(here::here(
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
 
+df_lunz_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "2007_lunz_digitised_specimen_data.csv"
+)) |>
+  janitor::clean_names() |>
+  filter(genus_name == "Anagotus") |>
+  mutate(institution_code = "LUNZ") |>
+  mutate(
+    date_collected1 = parse_date_time(date_collected1, orders = c("dmy", "my", "y")),
+    day = day(date_collected1),
+    month = month(date_collected1),
+    year = year(date_collected1)
+  ) |>
+  select(
+    institution_code,
+    catalog_number = accession_number,
+    recorded_by = collected_by,
+    year,
+    month,
+    day,
+    decimal_latitude = latitude,
+    decimal_longitude = longitude,
+    location,
+    generic_name = genus_name,
+    specific_name = species_name
+  ) |>
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>% 
+  mutate(decimal_latitude = as.character(decimal_latitude),
+         decimal_longitude = as.character(decimal_longitude))
+
+df_cmnz_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "20240320_cmnz_digitised_specimen_data.csv"
+)) |>
+  janitor::clean_names() |>
+  mutate(institution_code = "CMNZ") |>
+  separate(field_coll_date, into = c("field_coll_date", "field_coll_date2"), sep = "-") |>
+  separate(classification, into = c("generic_name", "specific_name"), sep = "/", remove = FALSE) |>
+  mutate(
+    field_coll_date = parse_date_time(field_coll_date, orders = c("dmy", "my", "y")),
+    day = day(field_coll_date),
+    month = month(field_coll_date),
+    year = year(field_coll_date)
+  ) |>
+  select(
+    institution_code,
+    catalog_number = system_id,
+    recorded_by = field_coll_person,
+    year,
+    month,
+    day,
+    decimal_latitude = latitude,
+    decimal_longitude = longitude,
+    location = field_coll_place_description,
+    generic_name,
+    specific_name
+  ) |>
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>%
+  mutate(
+    catalog_number = as.character(catalog_number),
+    decimal_latitude = as.character(decimal_latitude),
+    decimal_longitude = as.character(decimal_longitude)
+  )
+
 # Combine datasets
-df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw) %>%
+df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw, df_cmnz_raw, df_lunz_raw) %>%
   mutate(
     decimal_latitude = as.double(decimal_latitude),
     decimal_longitude = as.double(decimal_longitude)
@@ -127,7 +191,7 @@ usethis::use_data(df_anagotus, overwrite = TRUE)
 # If you wanted to later to and edit one of your datasets, here’s what that workflow would look like:
 # 1) Go into data-raw/ and edit your .csv and the corresponding dataset_load.R script for in the data-raw/ folder.
 # 2) After you’ve made your changes, make sure you re-run usethis::use_data(<your-dataset>, overwrite = TRUE).
-# 3) If your changes affect the variables you’ve used, then don’t forget to update the corresponding Roxygen-commented .R script that lives inside the R/ folder. Run document() to put those changes into effect.
+# 3) If your changes affect the variables you’ve used, then don’t forget to update the corresponding Roxygen-commented .R script that lives inside the R/ folder. Run devtools::document() to put those changes into effect.
 # 4) Run a Check for good measure with devtools::check(document=FALSE) and finally…
-# 5) Go to Build > Install and Restart.
+# 5) Go to Build > Install and Restart or devtools::install().
 # 6) When your learners re-install the package from GitHub, they’ll have all your updates!
