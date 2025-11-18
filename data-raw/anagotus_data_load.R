@@ -178,8 +178,40 @@ df_cmnz_raw <- readr::read_csv(here::here(
     decimal_longitude = as.character(decimal_longitude)
   )
 
+df_monz_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "2025_monz_digitised_specimen_data.csv"
+)) |>
+  janitor::clean_names() |>
+  unite(
+    species,
+    taxon_name:taxon_note,
+    sep = " ",
+    remove = FALSE,
+    na.rm = TRUE
+  ) |>
+  separate_wider_delim(
+    col = neil_guess_coordinates,
+    names = c("decimal_latitude", "decimal_longitude"),
+    delim = ", "
+  ) |>
+  split_scientific_name("species") |>
+  select(
+    institution_code = institution,
+    catalog_number = barcode,
+    recorded_by = collectors,
+    year,
+    month,
+    decimal_latitude,
+    decimal_longitude,
+    location = locality,
+    generic_name = v_genus,
+    specific_name = v_species
+  ) |>
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
+
 # Combine datasets
-df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw, df_cmnz_raw, df_lunz_raw) %>%
+df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw, df_cmnz_raw, df_lunz_raw, df_monz_raw) %>%
   mutate(
     decimal_latitude = as.double(decimal_latitude),
     decimal_longitude = as.double(decimal_longitude)
