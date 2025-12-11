@@ -122,7 +122,10 @@ df_lunz_raw <- readr::read_csv(here::here(
   filter(genus_name == "Anagotus") |>
   mutate(institution_code = "LUNZ") |>
   mutate(
-    date_collected1 = parse_date_time(date_collected1, orders = c("dmy", "my", "y")),
+    date_collected1 = parse_date_time(
+      date_collected1,
+      orders = c("dmy", "my", "y")
+    ),
     day = day(date_collected1),
     month = month(date_collected1),
     year = year(date_collected1)
@@ -140,9 +143,11 @@ df_lunz_raw <- readr::read_csv(here::here(
     generic_name = genus_name,
     specific_name = species_name
   ) |>
-  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>% 
-  mutate(decimal_latitude = as.character(decimal_latitude),
-         decimal_longitude = as.character(decimal_longitude))
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>%
+  mutate(
+    decimal_latitude = as.character(decimal_latitude),
+    decimal_longitude = as.character(decimal_longitude)
+  )
 
 df_cmnz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -150,10 +155,22 @@ df_cmnz_raw <- readr::read_csv(here::here(
 )) |>
   janitor::clean_names() |>
   mutate(institution_code = "CMNZ") |>
-  separate(field_coll_date, into = c("field_coll_date", "field_coll_date2"), sep = "-") |>
-  separate(classification, into = c("generic_name", "specific_name"), sep = "/", remove = FALSE) |>
+  separate(
+    field_coll_date,
+    into = c("field_coll_date", "field_coll_date2"),
+    sep = "-"
+  ) |>
+  separate(
+    classification,
+    into = c("generic_name", "specific_name"),
+    sep = "/",
+    remove = FALSE
+  ) |>
   mutate(
-    field_coll_date = parse_date_time(field_coll_date, orders = c("dmy", "my", "y")),
+    field_coll_date = parse_date_time(
+      field_coll_date,
+      orders = c("dmy", "my", "y")
+    ),
     day = day(field_coll_date),
     month = month(field_coll_date),
     year = year(field_coll_date)
@@ -177,6 +194,38 @@ df_cmnz_raw <- readr::read_csv(here::here(
     decimal_latitude = as.character(decimal_latitude),
     decimal_longitude = as.character(decimal_longitude)
   )
+
+df_anic_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "2025_anic_digitised_specimen_data.csv"
+)) |>
+  janitor::clean_names() |>
+  separate_wider_delim(
+    col = neil_guess_coordinates,
+    names = c("decimal_latitude", "decimal_longitude"),
+    delim = ", "
+  ) |>
+  split_scientific_name("neil_guess_accepted_name") |>
+  mutate(
+    clean_date = parse_date_time(clean_date, orders = c("dmy", "my", "y")),
+    day = day(clean_date),
+    month = month(clean_date),
+    v_year = year(clean_date)
+  ) |>
+  select(
+    institution_code = institution,
+    catalog_number = barcode,
+    recorded_by = collector,
+    year = v_year,
+    month,
+    day,
+    decimal_latitude,
+    decimal_longitude,
+    location,
+    generic_name = v_genus,
+    specific_name = v_species
+  ) |>
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
 
 df_monz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -211,14 +260,18 @@ df_monz_raw <- readr::read_csv(here::here(
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
 
 # Combine datasets
-df_anagotus <- bind_rows(df_nzac_raw, df_nhm_raw, df_cmnz_raw, df_lunz_raw, df_monz_raw) %>%
+df_anagotus <- bind_rows(
+  df_nzac_raw,
+  df_nhm_raw,
+  df_cmnz_raw,
+  df_lunz_raw,
+  df_monz_raw,
+  df_anic_raw
+) |>
   mutate(
     decimal_latitude = as.double(decimal_latitude),
     decimal_longitude = as.double(decimal_longitude)
   )
-
-# Save to .rda
-usethis::use_data(df_anagotus, overwrite = TRUE)
 
 # If you wanted to later to and edit one of your datasets, here’s what that workflow would look like:
 # 1) Go into data-raw/ and edit your .csv and the corresponding dataset_load.R script for in the data-raw/ folder.
