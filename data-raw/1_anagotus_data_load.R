@@ -1,6 +1,7 @@
 # Load required packages
 #install.packages("tidyverse")
 library(tidyverse)
+library(sf)
 
 # Define function
 split_scientific_name <- function(df, column = "") {
@@ -52,6 +53,48 @@ df_nzac_raw <- readr::read_csv(here::here(
     specific_name = v_species
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
+
+df_tfbis_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "2007_large_weevil_tfbis.csv"
+)) |>
+  janitor::clean_names() |>
+  mutate(
+    clean_date = parse_date_time(coll_date1, orders = c("dmy", "my", "y")),
+    day = day(clean_date),
+    month = month(clean_date),
+    v_year = year(clean_date)
+  ) |>
+  select(
+    institution_code = coll_acro,
+    catalog_number = cyymmnumb,
+    recorded_by = collector,
+    year,
+    month,
+    day,
+    easting,
+    northing,
+    location = locality_merged,
+    generic_name = genus,
+    specific_name = species
+  ) |>
+  # convert NZMG (NZGD1949) easting/northing (EPSG:27200) -> geographic NZGD1949 (EPSG:4272)
+  sf::st_as_sf(coords = c("easting", "northing"), crs = 27200) |>
+  sf::st_transform(crs = 4272) |>
+  (\(x) {
+    mutate(
+      x,
+      decimal_longitude = sf::st_coordinates(x)[, 1],
+      decimal_latitude = sf::st_coordinates(x)[, 2]
+    )
+  })() |>
+  sf::st_drop_geometry() |>
+  mutate(
+    decimal_latitude = as.character(decimal_latitude),
+    decimal_longitude = as.character(decimal_longitude)
+  ) |>
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
+  filter(generic_name == "Anagotus")
 
 df_nhm_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -266,7 +309,8 @@ df_anagotus <- bind_rows(
   df_cmnz_raw,
   df_lunz_raw,
   df_monz_raw,
-  df_anic_raw
+  df_anic_raw,
+  df_tfbis_raw
 ) |>
   mutate(
     decimal_latitude = as.double(decimal_latitude),

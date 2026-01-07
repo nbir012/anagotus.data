@@ -1,11 +1,11 @@
-#' Label data of Anagotus spp. specimens located in museum collections 
+#' Label data of Anagotus spp. specimens located in museum collections
 #'
-#' Anagotus is a genus of large, flightless weevils (Coleoptera: Curculionidae) endemic to New Zealand. The dataset contains label data for 1,396 Anagotus specimens located in museum collections in New Zealand and overseas. The variables are:  
+#' Anagotus is a genus of large, flightless weevils (Coleoptera: Curculionidae) endemic to New Zealand. The dataset contains label data for Anagotus specimens located in museum collections in New Zealand and overseas. The variables are:
 #'
-#' @format A tibble with 1,396 rows and 12 variables:
+#' @format A tibble with 2,147 rows and 12 variables:
 #' \describe{
 #'   \item{institution_code}{chr Code for the institution housing the specimen.}
-#'   \item{catalog_number}{chr The unique barcode identifier for each specimen. This corresponds to a physical label on the specimen.} 
+#'   \item{catalog_number}{chr The unique barcode identifier for each specimen. This corresponds to a physical label on the specimen.}
 #'   \item{recorded_by}{chr The collector of the specimen, if known.}
 #'   \item{year}{num The year the specimen was collected}
 #'   \item{month}{num The month the specimen was collected}
