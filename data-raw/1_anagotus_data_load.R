@@ -52,7 +52,8 @@ df_nzac_raw <- readr::read_csv(here::here(
     generic_name = v_genus,
     specific_name = v_species
   ) |>
-  unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
+  mutate(data_origin = "researcher_digitised", df_origin = "df_nzac_raw")
 
 df_tfbis_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -91,7 +92,9 @@ df_tfbis_raw <- readr::read_csv(here::here(
   sf::st_drop_geometry() |>
   mutate(
     decimal_latitude = as.character(decimal_latitude),
-    decimal_longitude = as.character(decimal_longitude)
+    decimal_longitude = as.character(decimal_longitude),
+    data_origin = "tfbis_digitised",
+    df_origin = "df_tfbis_raw"
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
   filter(generic_name == "Anagotus")
@@ -155,7 +158,8 @@ df_nhm_raw <- readr::read_csv(here::here(
     generic_name = v_genus,
     specific_name = v_species
   ) |>
-  unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
+  mutate(data_origin = "researcher_digitised", df_origin = "df_nhm_raw")
 
 df_lunz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -190,7 +194,8 @@ df_lunz_raw <- readr::read_csv(here::here(
   mutate(
     decimal_latitude = as.character(decimal_latitude),
     decimal_longitude = as.character(decimal_longitude)
-  )
+  ) %>%
+  mutate(data_origin = "tfbis_digitised", df_origin = "df_lunz_raw")
 
 df_cmnz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -235,7 +240,9 @@ df_cmnz_raw <- readr::read_csv(here::here(
   mutate(
     catalog_number = as.character(catalog_number),
     decimal_latitude = as.character(decimal_latitude),
-    decimal_longitude = as.character(decimal_longitude)
+    decimal_longitude = as.character(decimal_longitude),
+    data_origin = "curator_database_checked",
+    df_origin = "df_cmnz_raw"
   )
 
 df_anic_raw <- readr::read_csv(here::here(
@@ -268,7 +275,8 @@ df_anic_raw <- readr::read_csv(here::here(
     generic_name = v_genus,
     specific_name = v_species
   ) |>
-  unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
+  mutate(data_origin = "researcher_digitised", df_origin = "df_anic_raw")
 
 df_monz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -300,7 +308,8 @@ df_monz_raw <- readr::read_csv(here::here(
     generic_name = v_genus,
     specific_name = v_species
   ) |>
-  unite("species", generic_name, specific_name, sep = " ", remove = FALSE)
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
+  mutate(data_origin = "researcher_digitised", df_origin = "df_monz_raw")
 
 # Combine datasets
 df_anagotus <- bind_rows(
@@ -315,7 +324,17 @@ df_anagotus <- bind_rows(
   mutate(
     decimal_latitude = as.double(decimal_latitude),
     decimal_longitude = as.double(decimal_longitude)
-  )
+  ) |>
+  mutate(
+    institution_code = case_when(
+      is.na(institution_code) ~ NA_character_,
+      institution_code == "NMMZ" ~ "MONZ",
+      institution_code == "NMNZ" ~ "MONZ",
+      institution_code == "AMNZ" ~ "AK",
+      TRUE ~ institution_code
+    )
+  ) |>
+  filter(institution_code != "brow") # Exclude "brow" as this was a single collection by Samuel Brown and it is uncertain where the specimen is now located
 
 # If you wanted to later to and edit one of your datasets, here’s what that workflow would look like:
 # 1) Go into data-raw/ and edit your .csv and the corresponding dataset_load.R script for in the data-raw/ folder.
