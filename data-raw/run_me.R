@@ -15,3 +15,11 @@ sourceDir <- function(path, trace = TRUE, ...) {
 }
 
 sourceDir(here::here("data-raw"))
+
+# If you wanted to later to and edit one of your datasets, here’s what that workflow would look like:
+# 1) Go into data-raw/ and edit your .csv and the corresponding dataset_load.R script for in the data-raw/ folder.
+# 2) After you’ve made your changes, make sure you run "run_me.R".
+# 3) If your changes affect the variables you’ve used, then don’t forget to update the corresponding Roxygen-commented .R script that lives inside the R/ folder. Run devtools::document() to put those changes into effect.
+# 4) Run a Check for good measure with devtools::check(document=FALSE) and finally…
+# 5) Go to Build > Install and Restart or devtools::install().
+# 6) When your learners re-install the package from GitHub, they’ll have all your updates!

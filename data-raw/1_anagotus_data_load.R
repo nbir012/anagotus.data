@@ -21,7 +21,11 @@ split_scientific_name <- function(df, column = "") {
     select(-match)
 }
 
-# Data processing
+
+# Data processing --------------------------------------------------------
+
+# NZAC
+
 df_nzac_raw <- readr::read_csv(here::here(
   "data-raw",
   "2025_nzac_digitised_specimen_data.csv"
@@ -53,7 +57,9 @@ df_nzac_raw <- readr::read_csv(here::here(
     specific_name = v_species
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
-  mutate(data_origin = "researcher_digitised", df_origin = "df_nzac_raw")
+  mutate(data_origin = "nwb_nzac_digitised", df_origin = "df_nzac_raw")
+
+# TFBIS
 
 df_tfbis_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -91,13 +97,27 @@ df_tfbis_raw <- readr::read_csv(here::here(
   })() |>
   sf::st_drop_geometry() |>
   mutate(
+    institution_code = case_when(
+      is.na(institution_code) ~ NA_character_,
+      institution_code == "NMMZ" ~ "MONZ",
+      institution_code == "NMNZ" ~ "MONZ",
+      institution_code == "AMNZ" ~ "AK",
+      TRUE ~ institution_code
+    )
+  ) |>
+  mutate(
     decimal_latitude = as.character(decimal_latitude),
     decimal_longitude = as.character(decimal_longitude),
-    data_origin = "tfbis_digitised",
+    data_origin = case_when(
+      is.na(institution_code) ~ "tfbis_digitised",
+      TRUE ~ paste0("tfbis_", tolower(institution_code), "_digitised")
+    ),
     df_origin = "df_tfbis_raw"
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
   filter(generic_name == "Anagotus")
+
+# NHM
 
 df_nhm_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -159,7 +179,9 @@ df_nhm_raw <- readr::read_csv(here::here(
     specific_name = v_species
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
-  mutate(data_origin = "researcher_digitised", df_origin = "df_nhm_raw")
+  mutate(data_origin = "nwb_nhm_digitised", df_origin = "df_nhm_raw")
+
+# LUNZ TFBIS
 
 df_lunz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -195,7 +217,9 @@ df_lunz_raw <- readr::read_csv(here::here(
     decimal_latitude = as.character(decimal_latitude),
     decimal_longitude = as.character(decimal_longitude)
   ) %>%
-  mutate(data_origin = "tfbis_digitised", df_origin = "df_lunz_raw")
+  mutate(data_origin = "tfbis_LUNZ_digitised", df_origin = "df_lunz_raw")
+
+# CMNZ
 
 df_cmnz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -245,6 +269,8 @@ df_cmnz_raw <- readr::read_csv(here::here(
     df_origin = "df_cmnz_raw"
   )
 
+# ANIC
+
 df_anic_raw <- readr::read_csv(here::here(
   "data-raw",
   "2025_anic_digitised_specimen_data.csv"
@@ -276,7 +302,9 @@ df_anic_raw <- readr::read_csv(here::here(
     specific_name = v_species
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
-  mutate(data_origin = "researcher_digitised", df_origin = "df_anic_raw")
+  mutate(data_origin = "nwb_anic_digitised", df_origin = "df_anic_raw")
+
+# MONZ
 
 df_monz_raw <- readr::read_csv(here::here(
   "data-raw",
@@ -309,7 +337,7 @@ df_monz_raw <- readr::read_csv(here::here(
     specific_name = v_species
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
-  mutate(data_origin = "researcher_digitised", df_origin = "df_monz_raw")
+  mutate(data_origin = "nwb_monz_digitised", df_origin = "df_monz_raw")
 
 # Combine datasets
 df_anagotus <- bind_rows(
