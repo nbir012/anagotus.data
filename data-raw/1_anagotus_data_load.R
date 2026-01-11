@@ -217,7 +217,7 @@ df_lunz_raw <- readr::read_csv(here::here(
     decimal_latitude = as.character(decimal_latitude),
     decimal_longitude = as.character(decimal_longitude)
   ) %>%
-  mutate(data_origin = "tfbis_LUNZ_digitised", df_origin = "df_lunz_raw")
+  mutate(data_origin = "tfbis_lunz_digitised", df_origin = "df_lunz_raw")
 
 # CMNZ
 
