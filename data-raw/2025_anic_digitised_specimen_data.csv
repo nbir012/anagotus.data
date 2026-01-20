@@ -1,5 +1,4 @@
 Institution,Barcode,Broun/label Number,Altitude,Location,NEIL_guess_coordinates,collection date,clean_date,year,Collector,Determinor,Determination,Accession Label,Taxa,Drawer Information,Type,Notes,neil_guess_accepted_name
-,,,,,,,,,,,,,,,,,
 ANIC,,,,"Three Kings Island, Great Island","-34.15959, 172.1393",Nov. 70,Nov-70,1970,G. Kuschel,G. Kuschel 1999,"Anagotus turbotti (Spiller, 1942)",,Anagotus turbotti,,,,Anagotus turbotti
 ANIC,,,,"Three Kings Island, Great Island","-34.15959, 172.1393",Nov. 70,Nov-70,1970,G. Kuschel,G. Kuschel 1999,"Anagotus turbotti (Spiller, 1942)",,Anagotus turbotti,,,,Anagotus turbotti
 ANIC,,,,Stephens Island,"-40.67069, 173.9983",15.9.16,15/09/1916,1916,,G. Kuschel 1999,"Anagotus stephenensis (Kuschel, 1982)",,Anagotus stephenensis,,,pink circle,Anagotus stephenensis
@@ -11,7 +10,7 @@ ANIC,,,"4,800ft","Mount Arthur Tableland, Mount Peel, Balloon Hut","-41.169652, 
 ANIC,,,1950m,"New Zealand, CO, Mount Pisa Summit","-44.87207, 169.19079",16-Feb-83,16/02/1983,1983,JC Watt,G. Kuschel 1999,"Anagotus latirostris (Broun, 1904)",,Anagotus latirostris,,,Under stones,Anagotus latirostris
 ANIC,,,180m - 230m,"West Arm, Mica Burn","-45.49698, 167.23172",Jan-70,Jan-70,1970,J Dugdale,G. Kuschel 1999,Anagotus helmsi Sharp 1882,,Anagotus helmsi,,,"To light
 Genitalia in vial",Anagotus helmsi
-ANIC,,,,"Nelson, Seddonville","41.54978, 171.98848",8-Oct-69,8/10/1969,1969,JI Townsend,G. Kuschel 1999,Anagotus helmsi Sharp 1882,,Anagotus helmsi,,,At night,Anagotus helmsi
+ANIC,,,,"Nelson, Seddonville","-41.54978, 171.98848",8-Oct-69,8/10/1969,1969,JI Townsend,G. Kuschel 1999,Anagotus helmsi Sharp 1882,,Anagotus helmsi,,,At night,Anagotus helmsi
 ANIC,,,4500',Remarkables,"-45.10541, 168.79105",7/02/1963,7/02/1963,1963,JI Townsend,G. Kuschel 1999,"Anagotus hamiltoni (Broun, 1913)",,Anagotus hamiltoni,,,,Anagotus hamiltoni
 ANIC,,,4500',Remarkables,"-45.10541, 168.79105",7/02/1963,7/02/1963,1963,JI Townsend,G. Kuschel 1999,"Anagotus hamiltoni (Broun, 1913)",,Anagotus hamiltoni,,,,Anagotus hamiltoni
 ANIC,,,5000',"Nelson, Mount Arthur","-41.169652, 172.621522",20-Nov-69,20/11/1969,1969,JI Townsend,G. Kuschel 1999,"Anagotus gourlayi (Brookes, 1932)",,Anagotus gourlayi,,,,Anagotus gourlayi
