@@ -9,7 +9,7 @@
 
 A tibble with 2,147 rows and 12 variables:
 \describe{
-\item{institution_code}{chr Code for the institution housing the specimen. Codes are:
+\item{institution_code}{chr Code for the institution housing the specimen. Codes have been standardised as:
 NZAC = New Zealand Arthropod Collection, New Zealand;
 MONZ = Museum of New Zealand Te Papa Tongarewa, New Zealand;
 AK = Auckland Museum, New Zealand; CMNZ = Canterbury Museum, New Zealand;
@@ -30,9 +30,9 @@ FRNZ = Forest Research Institute (now BSI - Scion), New Zealand.}
 \item{generic_name}{chr The genus name of the specimen.}
 \item{specific_name}{chr The species name of the specimen. In some cases, where the specific epithet is indicated by an *, these are manuscript names from Willy Kuschel and should not be used in formal publications without checking with a taxonomic expert.}
 \item{data_origin}{chr How the data was sourced. The values are:
-researcher_digitised = data digitised by Neil Birrell from physical specimen labels in museum collections;
+nwb_<institution_code>\emph{digitised = data digitised by Neil Birrell from physical specimen labels in museum collections;
 curator_database_checked = data downloaded from museum collection databases by a museum curators. This is the case for CMNZ which was undergoing renovations at the time and a physical visit was not possible.
-tfbis_digitised = data downloaded from the Terrestrial and Freshwater Biodiversity Information System (TFBIS) managed by Manaaki Whenua - Landcare Research, New Zealand. This includes a variety of collections. In the case of NZAC it may contain duplicates of what has been digitised by Neil Birrell. As there was no unique identifier attached to specimens for the tfbis data, it is not possible to cross check for duplicates. If this is important to you, you should use only the researcher_digitised values which were comprehensive checks by one researcher.}
+tfbis}<institution_code>\emph{digitised = data downloaded from the Terrestrial and Freshwater Biodiversity Information System (TFBIS) managed by Manaaki Whenua - Landcare Research, New Zealand. This includes a variety of collections. In the case of NZAC it may contain duplicates of what has been digitised by Neil Birrell. As there was no unique identifier attached to specimens for the tfbis data, it is not possible to cross check for duplicates. If this is important to you, you should use only the nwb}<institution_code>_digitised values which were comprehensive checks by one researcher.}
 \item{df_origin}{chr The dataframe where this value originated from. This will correspond to a particular csv which can be found in the data-raw folder.}
 }
 }
