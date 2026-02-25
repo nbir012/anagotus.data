@@ -1,8 +1,6 @@
 Accession number ,SpeciesCode,GenusName,SpeciesName,"Species
 Author&Date",location,AreaCode,Latitude,Longitude,CollectedBy,DateCollected1,DateCollected2,Site/altitude,"Collection
-Method","Source/
-Habitat/
-host",Stage/sex,DeterminedBy,DateDetermined,StorageType,TypeStatus
+Method",Source/Habitat/host,Stage/sex,DeterminedBy,DateDetermined,StorageType,TypeStatus
 LUNZ00001240,Collypenesi,Lyperobius,nesidiotes,"Kuschel, 1987","Snares Islands, Broughton Island",SN,-48.03,166.61,J.W. Early,30/11/1976,,,,Litter under Anistome acutifolia P76-24,Male,G. Kuschel,1984,Pinned,Paratype
 LUNZ00001239,Collypesped,Lyperobius,spedenii,"Broun, 1917",Temple Peak Station ,OL,-44.78495,168.4148,C.J. Vink,26/02/2003,,1740 m,,On speargrass flower,,,,"On card, pinned",
 LUNZ00001238,Collypesped,Lyperobius,spedenii,"Broun, 1917",Temple Peak Station ,OL,-44.78495,168.4148,C.J. Vink,27/02/2003,,1741 m,,On speargrass flower,,,,"On card, pinned",

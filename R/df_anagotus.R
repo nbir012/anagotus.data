@@ -30,6 +30,7 @@
 #' curator_database_checked = data downloaded from museum collection databases by a museum curators. This is the case for CMNZ which was undergoing renovations at the time and a physical visit was not possible.
 #' tfbis_<institution_code>_digitised = data downloaded from the Terrestrial and Freshwater Biodiversity Information System (TFBIS) managed by Manaaki Whenua - Landcare Research, New Zealand. This includes a variety of collections. In the case of NZAC it may contain duplicates of what has been digitised by Neil Birrell. As there was no unique identifier attached to specimens for the tfbis data, it is not possible to cross check for duplicates. If this is important to you, you should use only the nwb_<institution_code>_digitised values which were comprehensive checks by one researcher.}
 #'   \item{df_origin}{chr The dataframe where this value originated from. This will correspond to a particular csv which can be found in the data-raw folder.}
+#'   \item{microhabitat}{chr The habitat or microhabitat associated with the specimen, as per the label data.}
 #' }
 #' @source {Neil Birrell} Collected from museum collections and specimen labels.
 #' @source [Manaaki Whenua - Landcare Research, New Zealand. Terrestrial and Freshwater Biodiversity Information System (TFBIS) Large Weevils.](https://www.landcareresearch.co.nz/tools-and-resources/collections/new-zealand-arthropod-collection-nzac/tfbis-funded-specimen-information/large-weevils)

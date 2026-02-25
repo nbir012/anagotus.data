@@ -54,9 +54,20 @@ df_nzac_raw <- readr::read_csv(here::here(
     decimal_longitude,
     location = locality,
     generic_name = v_genus,
-    specific_name = v_species
+    specific_name = v_species,
+    habitat,
+    microhabitat
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
+  unite(
+    "microhabitat",
+    habitat,
+    microhabitat,
+    sep = "; ",
+    remove = FALSE,
+    na.rm = TRUE
+  ) |>
+  select(-habitat) |>
   mutate(data_origin = "nwb_nzac_digitised", df_origin = "df_nzac_raw")
 
 # TFBIS
@@ -83,7 +94,8 @@ df_tfbis_raw <- readr::read_csv(here::here(
     northing,
     location = locality_merged,
     generic_name = genus,
-    specific_name = species
+    specific_name = species,
+    microhabitat = found_on
   ) |>
   # convert NZMG (NZGD1949) easting/northing (EPSG:27200) -> geographic NZGD1949 (EPSG:4272)
   sf::st_as_sf(coords = c("easting", "northing"), crs = 27200) |>
@@ -210,14 +222,15 @@ df_lunz_raw <- readr::read_csv(here::here(
     decimal_longitude = longitude,
     location,
     generic_name = genus_name,
-    specific_name = species_name
+    specific_name = species_name,
+    microhabitat = source_habitat_host
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>%
   mutate(
     decimal_latitude = as.character(decimal_latitude),
     decimal_longitude = as.character(decimal_longitude)
   ) %>%
-  mutate(data_origin = "tfbis_lunz_digitised", df_origin = "df_lunz_raw")
+  mutate(data_origin = "tfbis_LUNZ_digitised", df_origin = "df_lunz_raw")
 
 # CMNZ
 
@@ -258,7 +271,8 @@ df_cmnz_raw <- readr::read_csv(here::here(
     decimal_longitude = longitude,
     location = field_coll_place_description,
     generic_name,
-    specific_name
+    specific_name,
+    microhabitat = habitat
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>%
   mutate(
@@ -299,7 +313,8 @@ df_anic_raw <- readr::read_csv(here::here(
     decimal_longitude,
     location,
     generic_name = v_genus,
-    specific_name = v_species
+    specific_name = v_species,
+    microhabitat = habitat
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
   mutate(data_origin = "nwb_anic_digitised", df_origin = "df_anic_raw")
@@ -334,7 +349,8 @@ df_monz_raw <- readr::read_csv(here::here(
     decimal_longitude,
     location = locality,
     generic_name = v_genus,
-    specific_name = v_species
+    specific_name = v_species,
+    microhabitat
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) |>
   mutate(data_origin = "nwb_monz_digitised", df_origin = "df_monz_raw")
@@ -354,6 +370,7 @@ df_anagotus <- bind_rows(
     decimal_longitude = as.double(decimal_longitude)
   ) |>
   mutate(
+    microhabitat = na_if(microhabitat, ""),
     institution_code = case_when(
       is.na(institution_code) ~ NA_character_,
       institution_code == "NMMZ" ~ "MONZ",
