@@ -1,6 +1,7 @@
-# anagotus.data
+# anagotus.data 
 
 <!-- badges: start -->
+[![DOI](https://zenodo.org/badge/1076581692.svg)](https://doi.org/10.5281/zenodo.19242238)
 <!-- badges: end -->
 
 Label data for *Anagotus* spp. specimens located in museum collections.
