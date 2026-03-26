@@ -60,8 +60,8 @@ available.
 You can install anagotus.data from [GitHub](https://github.com/nbir012/anagotus.data):
 
 ```r
-# install.packages("pak")
-pak::pak("nbir012/anagotus.data")
+# install.packages("remotes")
+remotes::install_github("nbir012/anagotus.data")
 ```
 
 ## Usage
