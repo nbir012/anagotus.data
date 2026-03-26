@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/nbir012/anagotus.data/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/nbir012/anagotus.data/blob/v0.1.0/inst/CITATION)
 
 Birrell N (2025). *anagotus.data: Label Data for Anagotus Specimens*. R
 package version 0.1.0, <https://nbir012.github.io/anagotus.data/>.
