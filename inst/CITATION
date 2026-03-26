@@ -1,0 +1,8 @@
+bibentry(
+  bibtype = "Manual",
+  title = "anagotus.data: Label Data for Anagotus Specimens",
+  author = person("Neil", "Birrell", email = "nbir012@aucklanduni.ac.nz", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-7961-1626")),
+  year = "2025",
+  note = "R package version 0.1.0",
+  url = "https://nbir012.github.io/anagotus.data/"
+)
