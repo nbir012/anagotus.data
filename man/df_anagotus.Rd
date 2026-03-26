@@ -5,9 +5,9 @@
 \alias{df_anagotus}
 \title{Label data of Anagotus spp. specimens located in museum collections}
 \format{
-\subsection{\code{anagotus.data}}{
+\subsection{\code{df_anagotus}}{
 
-A tibble with 2,147 rows and 12 variables:
+A tibble with 2,145 rows and 15 variables:
 \describe{
 \item{institution_code}{chr Code for the institution housing the specimen. Codes have been standardised as:
 NZAC = New Zealand Arthropod Collection, New Zealand;
@@ -22,18 +22,19 @@ FRNZ = Forest Research Institute (now BSI - Scion), New Zealand.}
 \item{recorded_by}{chr The collector of the specimen, if known.}
 \item{year}{num The year the specimen was collected, if known.}
 \item{month}{num The month the specimen was collected, if known.}
-\item{day}{num The day the specimen was collected, if known.}
-\item{decimal_latitude}{chr The latitude in decimal degrees where the specimen was collected. This is often estimated from a place name.}
-\item{decimal_longitude}{chr The longitude in decimal degrees where the specimen was collected. This is often estimated from a place name.}
+\item{decimal_latitude}{num The latitude in decimal degrees where the specimen was collected. This is often estimated from a place name.}
+\item{decimal_longitude}{num The longitude in decimal degrees where the specimen was collected. This is often estimated from a place name.}
 \item{location}{chr The textual description of the location where the specimen was collected.}
 \item{species}{chr The latin binomial or tag name of the specimen. In some cases, where the specific epithet is indicated by an *, these are manuscript names from Willy Kuschel and should not be used in formal publications without checking with a taxonomic expert.}
 \item{generic_name}{chr The genus name of the specimen.}
 \item{specific_name}{chr The species name of the specimen. In some cases, where the specific epithet is indicated by an *, these are manuscript names from Willy Kuschel and should not be used in formal publications without checking with a taxonomic expert.}
+\item{microhabitat}{chr The habitat or microhabitat associated with the specimen, as per the label data.}
 \item{data_origin}{chr How the data was sourced. The values are:
 nwb_<institution_code>\emph{digitised = data digitised by Neil Birrell from physical specimen labels in museum collections;
 curator_database_checked = data downloaded from museum collection databases by a museum curators. This is the case for CMNZ which was undergoing renovations at the time and a physical visit was not possible.
 tfbis}<institution_code>\emph{digitised = data downloaded from the Terrestrial and Freshwater Biodiversity Information System (TFBIS) managed by Manaaki Whenua - Landcare Research, New Zealand. This includes a variety of collections. In the case of NZAC it may contain duplicates of what has been digitised by Neil Birrell. As there was no unique identifier attached to specimens for the tfbis data, it is not possible to cross check for duplicates. If this is important to you, you should use only the nwb}<institution_code>_digitised values which were comprehensive checks by one researcher.}
 \item{df_origin}{chr The dataframe where this value originated from. This will correspond to a particular csv which can be found in the data-raw folder.}
+\item{day}{int The day the specimen was collected, if known.}
 }
 }
 }

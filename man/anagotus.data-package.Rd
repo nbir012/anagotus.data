@@ -8,6 +8,14 @@
 \description{
 This package provides label data for Anagotus specimens stored in various institutions. This includes temporal and spatial data where possible.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/nbir012/anagotus.data}
+  \item Report bugs at \url{https://github.com/nbir012/anagotus.data/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Neil Birrell \email{nbir012@aucklanduni.ac.nz} (\href{https://orcid.org/0000-0002-7961-1626}{ORCID})
 
