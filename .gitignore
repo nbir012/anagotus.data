@@ -3,3 +3,29 @@
 .RData
 .Ruserdata
 docs
+
+# R artifacts
+.Rhistory
+.Rdata
+.RData
+.Ruserdata
+.httr-oauth
+
+# RStudio / Positron project files (optional — some prefer to track .Rproj)
+*.Rproj.user
+
+# pkgdown site (built locally)
+docs
+
+# renv library (users install their own)
+renv/library/
+renv/staging/
+renv/cellar/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Byte-compiled / cached
+*.pyc
+__pycache__/
