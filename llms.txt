@@ -56,6 +56,7 @@ You can install anagotus.data from
 [GitHub](https://github.com/nbir012/anagotus.data):
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("nbir012/anagotus.data")
 ```
@@ -63,6 +64,7 @@ remotes::install_github("nbir012/anagotus.data")
 ## Usage
 
 ``` r
+
 library(anagotus.data)
 
 df_anagotus
