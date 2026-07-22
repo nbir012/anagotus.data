@@ -195,7 +195,7 @@ df_nhm_raw <- readr::read_csv(here::here(
 
 # LUNZ TFBIS
 
-df_lunz_raw <- readr::read_csv(here::here(
+df_lunz_tfbis_raw <- readr::read_csv(here::here(
   "data-raw",
   "2007_lunz_digitised_specimen_data.csv"
 )) |>
@@ -232,11 +232,50 @@ df_lunz_raw <- readr::read_csv(here::here(
   ) %>%
   mutate(data_origin = "tfbis_LUNZ_digitised", df_origin = "df_lunz_raw")
 
+df_lunz_2026_raw <- readr::read_csv(here::here(
+  "data-raw",
+  "2026_lunz_digitised_specimen_data.csv"
+)) |>
+  janitor::clean_names() |>
+  filter(genus == "Anagotus") |>
+  mutate(institution_code = "LUNZ") |>
+  mutate(
+    collection_date_1 = parse_date_time(
+      collection_date_1,
+      orders = c("dmy", "my", "y")
+    ),
+    day = day(collection_date_1),
+    month = month(collection_date_1),
+    year = year(collection_date_1)
+  ) |>
+  select(
+    institution_code,
+    catalog_number = accession_number,
+    recorded_by = collector,
+    year,
+    month,
+    day,
+    decimal_latitude = latitude_dd_ddddd,
+    decimal_longitude = longitude_dd_ddddd,
+    location,
+    generic_name = genus,
+    specific_name = species,
+    microhabitat = habitat
+  ) |>
+  unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>%
+  mutate(
+    decimal_latitude = as.character(decimal_latitude),
+    decimal_longitude = as.character(decimal_longitude)
+  ) %>%
+  mutate(data_origin = "2026_LUNZ_digitised", df_origin = "df_lunz_raw")
+
+df_lunz_raw <- rbind(df_lunz_tfbis_raw, df_lunz_2026_raw)
+
 # CMNZ
 
 df_cmnz_raw <- readr::read_csv(here::here(
   "data-raw",
-  "20240320_cmnz_digitised_specimen_data.csv"
+  "2026_cmnz_digitised_specimen_data.csv"
 )) |>
   janitor::clean_names() |>
   mutate(institution_code = "CMNZ") |>
@@ -262,24 +301,24 @@ df_cmnz_raw <- readr::read_csv(here::here(
   ) |>
   select(
     institution_code,
-    catalog_number = system_id,
+    catalog_number = catalogue_number_or_accession_number,
     recorded_by = field_coll_person,
     year,
     month,
     day,
-    decimal_latitude = latitude,
-    decimal_longitude = longitude,
+    decimal_latitude = field_coll_site_interrpretted_latitude,
+    decimal_longitude = field_coll_site_interrpretted_longitude,
     location = field_coll_place_description,
     generic_name,
     specific_name,
-    microhabitat = habitat
+    microhabitat = field_coll_place_description
   ) |>
   unite("species", generic_name, specific_name, sep = " ", remove = FALSE) %>%
   mutate(
     catalog_number = as.character(catalog_number),
     decimal_latitude = as.character(decimal_latitude),
     decimal_longitude = as.character(decimal_longitude),
-    data_origin = "curator_database_checked",
+    data_origin = "curator_database",
     df_origin = "df_cmnz_raw"
   )
 
