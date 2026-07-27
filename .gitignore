@@ -29,3 +29,6 @@ Thumbs.db
 # Byte-compiled / cached
 *.pyc
 __pycache__/
+
+# excel spreadsheets
+*.xlsx
