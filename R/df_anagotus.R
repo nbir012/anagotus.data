@@ -3,7 +3,7 @@
 #' Anagotus is a genus of large, flightless weevils (Coleoptera: Curculionidae) endemic to New Zealand. The dataset contains label data for Anagotus specimens located in museum collections in New Zealand and overseas. The variables are:
 #'
 #' @format ## `df_anagotus`
-#' A tibble with 2,145 rows and 15 variables:
+#' A tibble with 2,277 rows and 15 variables:
 #' \describe{
 #'   \item{institution_code}{chr Code for the institution housing the specimen. Codes have been standardised as:
 #' NZAC = New Zealand Arthropod Collection, New Zealand;

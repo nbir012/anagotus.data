@@ -418,7 +418,7 @@ df_anagotus <- bind_rows(
       TRUE ~ institution_code
     )
   ) |>
-  filter(institution_code != "brow") # Exclude "brow" as this was a single collection by Samuel Brown and it is uncertain where the specimen is now located
+  filter(institution_code != "brow") # Exclude "brow"
 
 # If you wanted to later to and edit one of your datasets, here’s what that workflow would look like:
 # 1) Go into data-raw/ and edit your .csv and the corresponding dataset_load.R script for in the data-raw/ folder.
